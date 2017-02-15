@@ -1,0 +1,26 @@
+// Rodrigo Hurtado Saucedo
+// 15/02/2017
+
+#include "stdafx.h"
+#include <iostream> 
+#include "conio.h"  
+
+ using namespace std;
+
+ void main(){
+	 float base,altura,area;
+	 cout<<" Ingrese la base del triangulo : "<<endl;
+	 cin>>base;
+	 if(base>0){
+	 cout<<" Ingrese la altura del triangulo : "<<endl;
+	 cin>>altura;
+	 if(altura>0){
+	 area=(base*altura)/2;
+	 cout<<" El area del triangulo es : "<<area<<endl;
+	 cout<<"vuelva pronto :) "<<endl;
+	 }else
+		 cout<<"ERROR ingrese una altura positiva";
+	 }else
+		 cout<<"Error ingrese una base positiva";
+	 getch();
+ }
