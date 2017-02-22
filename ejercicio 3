@@ -1,0 +1,31 @@
+// Nombre: Rodrigo Hurtado Saucedo
+// fecha: 22/02/2017
+// Determinar si un ciudadano puede votar.
+
+#include "stdafx.h"
+#include "conio.h"
+#include <iostream>
+
+ using namespace std;
+  
+ void main(){
+	
+int n,unidad,decena,centena,milesima;
+cout<<"Ingrese un numero menor a 10000"<<endl;
+cin>>n;
+if(n<10000){
+	unidad=n%10;
+	n=n/10;
+	decena=(n%10)*10;
+	n=n/10;
+	centena=(n%10)*100;
+	n=n/10;
+	milesima=(n%10)*1000;
+cout<<" el numero es : "<<endl;
+cout<<"unidades"<<unidad<<endl;
+cout<<"decenas"<<decena<<endl;
+cout<<"centenas : "<<centena<<endl;
+cout<<"milesimas : "<<milesima<<endl;
+}
+getch();
+ }
