@@ -1,0 +1,19 @@
+// Nombre: Rodrigo Hurtado Saucedo
+// fecha: 22/02/2017
+// Determinar si un ciudadano puede votar.
+
+#include "stdafx.h"
+#include "conio.h"
+#include <iostream>
+
+
+using namespace std;
+
+void main(){
+int edad;
+cout<<"Ingrese su edad : "<<endl;
+cin>>edad;
+if(edad >= 18)
+	cout<<"Ud esta habilitado para votar en estas elecciones"<<endl;
+getch();
+}
