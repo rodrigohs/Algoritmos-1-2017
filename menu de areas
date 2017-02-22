@@ -8,12 +8,6 @@
 
 using namespace std;
 
-#include "stdafx.h"
-#include "conio.h"
-#include <iostream>
-
-using namespace std;
-
 
 void  main() {
 float lado, base , altura,n; int opcion;
