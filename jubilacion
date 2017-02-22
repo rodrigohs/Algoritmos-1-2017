@@ -1,0 +1,45 @@
+// Nombre: Rodrigo Hurtado Saucedo
+// fecha: 22/02/2017
+// Determinar si un ciudadano puede votar.
+
+#include "stdafx.h"
+#include "conio.h"
+#include <iostream>
+
+using namespace std;
+
+void main() {
+
+int edad,genero,hijo;
+
+cout<<"introduzca la edad"<<endl;
+
+cin>> edad;
+
+cout<<"introduzca genero 1=masculino o 0=femenino"<<endl;
+
+cin>> genero;
+
+if(genero==1)
+  if(edad>=65)
+    cout<< "Usted se puede jubilar"<<endl;
+  else 
+    cout<< " no tiene la edad para jubilarse "<< endl;
+else{
+  if(genero==0){
+    cout<<"cuantos hijos tiene";
+    cin>> hijo;
+   if(edad>=(60-hijo)){
+     cout<<"usted puede jubilarse"<<endl;
+} else {
+
+     cout<<"usted no puede jubilarse"<<endl;
+}
+
+}
+
+}
+
+getch();
+
+}
