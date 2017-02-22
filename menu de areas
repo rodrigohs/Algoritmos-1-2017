@@ -1,0 +1,64 @@
+// Nombre: Rodrigo Hurtado Saucedo
+// fecha: 22/02/2017
+// Determinar si un ciudadano puede votar.
+
+#include "stdafx.h"
+#include "conio.h"
+#include <iostream>
+
+using namespace std;
+
+#include "stdafx.h"
+#include "conio.h"
+#include <iostream>
+
+using namespace std;
+
+
+void  main() {
+float lado, base , altura,n; int opcion;
+ cout<<"                menu       "<<endl;
+ cout<<"0.- salir del programa"<<endl;
+ cout<<"1.-area del triangulo"<<endl;
+ cout<<"2.-area del cuadrado"<<endl;
+ cout<<"3.-area del rectangulo"<<endl;
+ cin>> opcion;
+ switch(opcion){
+	 case 0: 
+	 cout<< "fin del programa"<<endl;
+	 break;
+ case 1: 
+	 cout<< " introduzca la base"<<endl;
+	 cin>> base; 
+	 cout<< " introduzca la alutra"<<endl;
+	 cin>> altura;
+	 n=base*altura;
+	 cout<< " el area es:"<<n;
+	 break;
+	  
+ case 2: 
+	 cout<< " introduzca el lado"<<endl;
+	 cin>> lado; 
+	 n=lado*lado;
+	 cout<< " el area es:"<<n;
+	 break;
+ case 3: 
+	 cout<< " introduzca la base"<<endl;
+	 cin>> base; 
+	 cout<< " introduzca la alutra"<<endl;
+	 cin>> altura;
+	 n=base*altura;
+	 cout<< " el area es:"<<n;
+	 break;
+ default : 
+	 cout<< "nro incorrecto";
+	 break;
+ 
+ }
+
+
+
+getch();
+}
+  
+
