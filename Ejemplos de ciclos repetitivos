@@ -1,0 +1,68 @@
+/ Rodrigo Hurtado y Julio Fernando Roca
+// 01-03-2017
+//Invertir numero
+ 
+#include "stdafx.h"
+#include <iostream>
+#include "conio.h"
+ 
+using namespace std;
+ 
+void main(){
+int n,r,s=0;
+cout<<"Ingrese el numero a invertir : ";
+cin>>n;
+ 
+while(n>0){
+r=n%10;
+s=(s*10)+r;
+n=n/10;
+}
+cout<<"El numero invertido es"<<s;
+getch();
+}
+#include "stdafx.h"
+#include <iostream>
+#include "conio.h"
+ 
+using namespace std;
+ 
+void main(){
+int n,a,b,i=0;
+cout<<"Cuantos veces quiere calcular el area de un cuadrado? : ";
+cin>>n;
+       do{
+              cout<<"ingrese la base : "<<endl;
+              cin>>a;
+              cout<<"El area del terreno es : "<<(a*a)<<endl;
+              i++;
+       }while(i<n);
+       getch();
+}
+ 
+ 
+ 
+       #include "stdafx.h"
+#include <iostream>
+#include "conio.h"
+ 
+using namespace std;
+ 
+void main(){
+       int n,s=0,d;
+      
+       cout << "introducir numero : ";
+    cin >> n;
+ 
+      
+       for(int i=0;n>0;i++){
+              d=n%10;
+              s=s+d;
+              n=n/10;
+       }
+       cout<<"la suma de los digitos es"<<s;
+ 
+       getch();
+}
+ 
+ 
