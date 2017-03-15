@@ -1,0 +1,44 @@
+// examen.cpp : Defines the entry point for the console application.
+//
+
+#include "stdafx.h"
+#include <iostream>
+#include"conio.h"
+
+using namespace std;
+int riesgo(int sueldo,int historial,int moroso,int hipoteca);
+void main(){
+	int sueldo,historial,moroso,hipoteca,r;
+	cout<<"Ingrese el sueldo del cliente"<<endl;
+	cin>>sueldo;
+	cout<<" Ingrese 1 si el cliente tiene historial o 0 si no lo tiene"<<endl;
+	cin>>historial;
+	cout<<" ingrese 1 si es moroso o 0 si no lo es . "<<endl;
+	cin>>moroso;
+	cout<<"Ingrese el valor de su hipoteca "<<endl;
+	cin>>hipoteca;
+	r=riesgo(sueldo,historial,moroso,hipoteca);
+	if(r==1){
+		cout<<"riesgo alto"<<endl;
+	
+	}if(r==2){
+			cout<<"riesgo medio"<<endl;
+	}if(r==3){
+		cout<<"riesgo bajo"<<endl;
+	}
+	getch();
+}
+int riesgo(int sueldo,int historial,int moroso,int hipoteca){
+
+	int r;
+	if(((historial==1)&&(moroso==1))||(hipoteca>(sueldo*0.3))){
+		r=1;
+	}else{
+		if((historial==0 && (hipoteca<(sueldo*0.20)))||(historial==1 && moroso==0 && (hipoteca<(sueldo*0.30)))){
+			r=2;
+		}else{
+			r=3;
+		}
+	}
+		return(r);
+	}
