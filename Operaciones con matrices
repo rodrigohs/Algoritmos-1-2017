@@ -1,0 +1,281 @@
+#include <stdlib.h>
+#include <iostream>
+#include <conio.h>
+#include <string.h>
+#include"math.h"
+
+#define fil 20
+#define col 20
+
+using namespace std;
+
+void cargar(int mat[fil][col], int nfil, int ncol){
+    int i, j;
+	cout<<endl;
+    for(i=0;i<nfil;i++){
+        for(j=0;j<ncol;j++){
+            cout<<"Introducir elemento ["<<i<<","<<j<<"]: ";
+            cin>>mat[i][j];
+        }
+    }
+}
+
+void mostrar(int mat[fil][col], int nfil, int ncol){
+    int i, j;
+	cout<<endl;
+    for(i=0;i<nfil;i++){
+        for(j=0;j<ncol;j++){
+            cout<<mat[i][j]<<" ";
+        }
+    cout<<endl;
+    }
+}
+
+void vector(int mat[fil][col], int nfil, int ncol, int vec[], int &k){
+	int i, j;
+	k=0;
+	for(i=0;i<nfil;i++){
+		for(j=0;j<ncol;j++){
+			vec[k]=mat[i][j];
+                k++;
+		}
+	}
+}
+
+void transpuesta(int mat[fil][col], int &nfil, int &ncol){
+	int i, j, vec[50], k, aux;
+	vector(mat,nfil,ncol,vec,k);
+	k=0;
+	for(i=0;i<nfil;i++){
+        for(j=0;j<ncol;j++){
+            mat[j][i]=vec[k];
+			k++;
+		}
+	}
+	aux=nfil;
+	nfil=ncol;
+	ncol=aux;
+}
+void sumar(int mat1[fil][col],int mat2[fil][col],int mat3[fil][col], int nfil, int ncol){
+	int i, j;
+	for(i=0;i<nfil;i++){
+		for(j=0;j<ncol;j++){
+			mat3[i][j]=mat1[i][j]+mat2[i][j];
+		}
+	}
+}
+void multiplicar(int mat1[fil][col],int mat2[fil][col],int mat3[fil][col], int nfil1, int ncol1, int nfil2, int ncol2){
+	int i, j, a, b, resultado;
+	for(i=0;i<nfil1;i++){
+		for(j=0;j<ncol2;j++){
+			resultado=0;
+			for(a=0;a<ncol1;a++){
+					resultado=resultado+(mat1[i][a]*mat2[a][j]);
+				}
+				mat3[i][j]=resultado;
+			}
+		}
+}
+
+
+
+void cargar1(float M[fil][col],int n,int m){
+	int i, j;
+    for(i=0;i<n;i++)
+    {
+        for(j=0;j<m;j++){
+			cout<<"Introducir elemento ["<<i<<","<<j<<"]: ";
+            cin>>M[i][j];
+		}
+    }
+}
+void mostrar1(float M[fil][col],int n,int m){
+	int i,j;
+	cout<<endl;
+    for(i=0;i<n;i++)
+    {
+        for(j=0;j<m;j++){
+            cout<<M[i][j]<<"    ";
+        cout<<" ";
+		}
+		cout<<endl;
+    }
+}
+float determinante(float Mat[fil][col],int n, int m)
+{
+    int i;
+    float d=0;
+    for(i=0;i<m;i++)
+    {
+        d=d+(( Mat[0][i] )*( cofactor(Mat,0,i,n,m) ));
+    }
+    return d;
+}
+float cofactor(float Mat[fil][col],int a,int b,int n,int m)
+{
+	if(n>1)
+		{
+		float A[fil][col];
+		int c=0,d=0;
+		for(int i=0;i<n;i++)
+		{
+			if(i!=a)
+			{
+				d=0;
+				for (int j=0;j<m;j++)
+				{
+					if(j!=b)
+					{
+						A[c][d]=Mat[i][j];
+						d++;
+					}
+				}
+				c++;
+			}
+		}
+
+			return (determinante(A,n-1,n-1)*( powf(-1,a+b+2) ));
+	}
+	else
+        return 1;
+}
+void matrizcofactores(float M[fil][col],float C[fil][col],int n,int m)
+{
+    int i,j;
+    for(i=0;i<n;i++)
+    {
+        for(j=0;j<m;j++)
+            C[i][j]=cofactor(M,i,j,n,m);
+    }
+}
+void traspuesta(float M[fil][col],float T[fil][col],int n,int m)
+{
+    int i,j;
+    for(i=0;i<n;i++)
+    {
+        for(j=0;j<m;j++)
+            T[i][j]=M[j][i];
+    }
+}
+void inversa(float T[fil][col],float I[fil][col],int n,int m,float d)
+{
+    int i,j;
+    for(i=0;i<n;i++)
+    {
+        for(j=0;j<m;j++)
+            I[i][j]=T[i][j]/d;
+    }
+}
+void mult(float A[fil][col],float B[fil][col],float C[fil][col],int n, int m,int o)
+{
+    int i,j;
+    float a=1,d;
+    for(i=0;i<n;i++)
+    {
+        for(j=0;j<o;j++)
+        {
+            a=0;
+            for(int k=0;k<m;k++)
+                a=a+A[i][k]*B[k][j];
+            d=a;
+            if( a-d<0.5 )
+                C[i][j]=d;
+            else
+                C[i][j]=d+1;
+        }
+    }
+}
+int main(){
+	int opcion,c;
+	int matriz1[fil][col], matriz2[fil][col], matriz3[fil][col], n, m,vec[50], k,o,p;
+	float M[fil][col],C[fil][col],d,T[fil][col],I[fil][col];
+    float X[fil][col];
+
+		do{
+		system("cls");
+		cout<<"******* M E N U *********";
+		cout<<endl<<"1.- Matriz transpuesta";
+		cout<<endl<<"2.- Matriz inversa";
+		cout<<endl<<"3.- Suma de 2 matrices";
+		cout<<endl<<"4.- Multiplicacion de 2 matrices";
+		cout<<endl<<"0.- Salir";
+		cout<<endl<<"Seleccionar opcion: ";
+		cin >> opcion;
+		getch();
+		switch(opcion){
+			case 1: cout<<"Introducir nro de filas: ";
+					cin>>n;
+					cout<<"Introducir nro de columnas: ";
+					cin>>m;
+					cargar(matriz1,n,m);
+					cout<<"Matriz: ";
+					mostrar(matriz1,n,m);
+					transpuesta(matriz1,n,m);
+					cout<<"Matriz transpuesta: ";
+					mostrar(matriz1,n,m);
+					getch();
+					break;
+			case 2: cout<<"Introducir nro de filas: ";
+					cin>>n;
+					cout<<"Introducir nro de columnas: ";
+					cin>>m;
+					cargar1(M,n,m);
+					cout<<"La matriz es: ";
+					mostrar1(M,n,m);
+					d=determinante(M,n,m);
+					matrizcofactores(M,C,n,m);
+					traspuesta(C,T,n,m);
+					inversa(T,I,n,m,d);
+					cout<< "La matriz inversa es: ";
+					mostrar1(I,n,m);
+					getch();
+					break;
+			case 3: cout<<"Introducir nro de filas: ";
+					cin>>n;
+					cout<<"Introducir nro de columnas: ";
+					cin>>m;
+					cout<<"Introducir matriz 1: ";
+					cargar(matriz1,n,m);
+					cout<<"Introducir matriz 2: ";
+					cargar(matriz2,n,m);
+					sumar(matriz1,matriz2,matriz3,n,m);
+					cout<<"Matriz 1: ";
+					mostrar(matriz1,n,m);
+					cout<<"Matriz 2: ";
+					mostrar(matriz2,n,m);
+					cout<<"Matriz resultante: ";
+					mostrar(matriz3,n,m);
+					getch();
+					break;
+			case 4: cout<<"Introducir nro de filas: ";
+					cin>>n;
+					cout<<"Introducir nro de columnas: ";
+					cin>>m;
+					cout<<"Introducir matriz 1: ";
+					cargar(matriz1,n,m);
+					cout<<"Introducir nro de filas: ";
+					cin>>o;
+					cout<<"Introducir nro de columnas: ";
+					cin>>p;
+					cout<<"Introducir matriz 2: ";
+					cargar(matriz2,o,p);
+					multiplicar(matriz1,matriz2,matriz3,n,m,o,p);
+					cout<<"Matriz 1: ";
+					mostrar(matriz1,n,m);
+					cout<<"Matriz 2: ";
+					mostrar(matriz2,o,p);
+					cout<<"Matriz resultante: ";
+					mostrar(matriz3,n,p);
+					getch();
+					break;
+
+		}
+	}while(opcion !=0);
+	getch();
+	return(1);
+}
+
+
+
+
+
