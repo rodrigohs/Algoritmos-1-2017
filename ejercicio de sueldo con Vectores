@@ -1,0 +1,88 @@
+// planilla.cpp : Defines the entry point for the console application.
+//
+// Librerias
+#include "stdafx.h"
+#include "conio.h"
+#include <iostream>
+#include "string"
+#define m 100
+
+using namespace std;
+
+struct t_empleados 
+{
+	int id;
+	string nombre,fechanac;
+	float sb,sn;
+};
+
+//Prototipos
+void cargarvector(t_empleados v[], int n);
+void clasificarburbuja(t_empleados v[], int n);
+bool busquedacodigo(t_empleados v[], int n, int clave, int &z );
+void listarplanilla(t_empleados v[], int n);
+float salarioneto(float sb);
+float promedio(t_empleados v[], int n);
+
+void main(){
+int opcion,N,bandera,codigo,pos;
+t_empleados vec[m];
+
+		cout<<"  MENU "<<endl;
+		cout<<"1.Cargar los empleados: "<<endl;
+		cout<<"2.Ordenar: "<<endl;
+		cout<<"3.Buscar codigo: "<<endl;
+		cout<<"4. Listar Planilla de sueldos:"<<endl;
+		cout<<"0. Salir"<<endl;
+
+		cin>>opcion;
+		// determina de acuerdo a la opcion que debe ejecutarse
+		switch (opcion){
+			
+		do{
+
+		case 1: 
+			cargarvector(vec,N);
+			break;
+		case 2:
+			clasificarburbuja(vec,N);
+			break;
+		case 3:
+			cout<<"Ingreso el codigo a buscar";
+			cin>> codigo;
+			bandera=busquedacodigo(vec,N,codigo,pos);
+			if (bandera==1) {
+				cout<<"Codigo: "<<vec[pos].id;
+				cout<<"Nombre: "<<vec[pos].nombre;
+				cout<<"Fecha Nacimiento: "<<vec[pos].fechanac;
+				cout<<"SalarioBruto: "<<vec[pos].sb;
+			}
+			else
+				cout<<" No existe el codigo del empleado"<<endl;
+			break;
+		case 4:
+			// Listar planilla
+			cout<<"\t Planilla de Sueldos\n";
+			cout<<"======================\n\n";
+			cout<<"Cod  Nombre   Fecha de Nacimiento    Salario Bruto "<<endl;
+	
+			for (int i=0; i<=N; i++)
+			{
+				cout<<vec[i].id<<"\t"<<endl;
+			}
+			cout<<"Promedio: "<<promedio(vec,N);
+				
+
+
+		case 0:
+
+		cout<<" SALIR "<<endl;
+		break;
+		default:
+			cout<<"Opcion Invalida"<<endl;
+		break;
+
+		}while(opcion!=0);
+	}
+		getch();
+}
