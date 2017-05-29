@@ -11,7 +11,7 @@ using namespace std;
 
 struct t_empleados 
 {
-	int id;
+	int codigo;
 	string nombre,fechanac;
 	float sb,sn;
 };
@@ -19,10 +19,9 @@ struct t_empleados
 //Prototipos
 void cargarvector(t_empleados v[], int n);
 void clasificarburbuja(t_empleados v[], int n);
-bool busquedacodigo(t_empleados v[], int n, int clave, int &z );
+int busquedacodigo(t_empleados v[], int n, int clave);
 void listarplanilla(t_empleados v[], int n);
-float salarioneto(float sb);
-float promedio(t_empleados v[], int n);
+
 
 void main(){
 int opcion,N,bandera,codigo,pos;
@@ -42,6 +41,8 @@ t_empleados vec[m];
 		do{
 
 		case 1: 
+			cout<<"Ingrese el numero de empleados"<<endl;
+			cin>>N;
 			cargarvector(vec,N);
 			break;
 		case 2:
@@ -50,9 +51,9 @@ t_empleados vec[m];
 		case 3:
 			cout<<"Ingreso el codigo a buscar";
 			cin>> codigo;
-			bandera=busquedacodigo(vec,N,codigo,pos);
+			bandera=busquedacodigo(vec,N,codigo);
 			if (bandera==1) {
-				cout<<"Codigo: "<<vec[pos].id;
+				cout<<"Codigo: "<<vec[pos].codigo;
 				cout<<"Nombre: "<<vec[pos].nombre;
 				cout<<"Fecha Nacimiento: "<<vec[pos].fechanac;
 				cout<<"SalarioBruto: "<<vec[pos].sb;
@@ -61,16 +62,20 @@ t_empleados vec[m];
 				cout<<" No existe el codigo del empleado"<<endl;
 			break;
 		case 4:
-			// Listar planilla
+			int acum=0;
 			cout<<"\t Planilla de Sueldos\n";
 			cout<<"======================\n\n";
 			cout<<"Cod  Nombre   Fecha de Nacimiento    Salario Bruto "<<endl;
 	
 			for (int i=0; i<=N; i++)
 			{
-				cout<<vec[i].id<<"\t"<<endl;
+				cout<<vec[i].codigo<<"\t"<<endl;
+				cout<<vec[i].nombre<<"\t"<<endl;
+				cout<<vec[i].fechanac<<"\t"<<endl;
+				cout<<vec[i].sb<<"\t"<<endl;
+				acum=acum+vec[i].sb;
 			}
-			cout<<"Promedio: "<<promedio(vec,N);
+			cout<<"Promedio: "<<(acum/N)<<endl;
 				
 
 
@@ -86,3 +91,44 @@ t_empleados vec[m];
 	}
 		getch();
 }
+void cargarvector(t_empleados v[], int n){
+
+	for(int i=0;i<n;i++){
+		cout<<"Ingrese el codigo del empleado, el nombre,fecha de nacimiento y salario"<<endl;
+		cin>>v[i].codigo;
+		cin>>v[i].nombre;
+		cin>>v[i].fechanac;
+		cin>>v[i].sb;
+	}
+}
+void clasificarburbuja(t_empleados v[], int n){
+t_empleados aux;
+for(int i=1;i<n;i++){
+	for(int j=0;j<n-1;j++){
+		if(v[j].nombre[0]>v[j+1].nombre[0]){
+			aux.nombre=v[j].nombre;
+			aux.codigo=v[j].codigo;
+			aux.fechanac=v[j].fechanac;
+			aux.sb=v[j].sb;
+			v[j].nombre=v[j+1].nombre;
+			v[j].codigo=v[j+1].codigo;
+			v[j].fechanac=v[j+1].fechanac;
+			v[j].sb=v[j+1].sb;
+			v[j+1].nombre=aux.nombre;
+			v[j+1].codigo=aux.codigo;
+			v[j+1].fechanac=aux.fechanac;
+			v[j+1].sb=aux.sb;
+		}
+	}
+}
+}
+int busquedacodigo(t_empleados v[], int n, int clave){
+int aux=0;
+for(int i=0;i<n;i++){
+
+	if(clave=v[i].codigo){
+		aux=1;
+	}
+}
+}
+
