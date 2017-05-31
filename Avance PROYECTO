@@ -1,0 +1,569 @@
+#include "stdafx.h"  
+#include <iostream>
+#include <string>  
+#include <conio.h>  
+#include "ctype.h" 
+
+using namespace std;
+
+struct RegUsuario
+{ 
+int codUsuario;
+string nombre,fechanac,estado;
+}; 
+struct RegSituacion{
+	int nro_situacion,codUsuario,nivel;
+	string situacion,estado;
+	
+};
+
+void ALTA_USUARIO(void);
+void CONSULTA_USUARIO(void);
+void MODIFICACION_USUARIO(void);
+void BAJA_LOGICA_USUARIO(void);
+void LISTADO_USUARIO(void);
+void menuUsuario(void);
+void menuSituaciones (void);
+void ALTA_SITUACIONES(void);
+void CONSULTA_SITUACIONES(void);
+void MODIFICACION_SITUACIONES(void);
+void BAJA_LOGICA_SITUACIONES(void) ;
+void LISTADO_SITUACIONES(void);
+int contarReg();
+
+void main(){
+int opcion;
+do{
+cout<< "------------------MENU DE STRESSOUT----------------------"            <<endl;
+		cout<<"1.Usuarios de stressout"<<endl;
+		cout<<"2.Situaciones de stressout"<<endl;
+		cout<<"0.salir"<<endl;
+		cin>> opcion;
+		switch(opcion){
+		
+		case 1:
+			menuUsuario();
+			break;
+		case 2:
+			menuSituaciones();
+			break;
+		case 0:
+			cout<<"Fin del menu";
+		    break;
+		default :
+			cout<<"Dato ingresado incorrecto";
+			break;
+		}
+}while(opcion!=0);
+
+}
+int contarReg(){
+	int c=0;
+	FILE *ptr;
+	RegUsuario Registro;
+	ptr=fopen("USUARIO.SEC","rb");
+	if(ptr != NULL){fread(&Registro,sizeof(Registro),1,ptr);
+		while(feof(ptr)==false){
+
+			c++;fread(&Registro,sizeof(Registro),1,ptr);
+		}
+	}else{
+		cout<<"ARCHIVO NO EXISTE";
+	}
+	return(c);
+}
+void menuUsuario()
+{
+	
+	int op;
+	do{
+		system("cls");
+		cout<< "------------------USUARIOS DE STRESSOUT----------------------"            <<endl;
+		cout<<"1.Registrate como usuario"<<endl;
+		cout<<"2.Consulta de usuarios"<<endl;
+		cout<<"3.Modificar usuario"<<endl;
+		cout<<"4.Borrar Usuario"<<endl;
+		cout<<"5.listado"<<endl;
+		cout<<"0.salir"<<endl;
+	    cin>>op;
+	switch(op)
+	{
+		case 1:
+			system("cls");
+			ALTA_USUARIO();
+			break;
+		case 2:
+			system("cls");
+			CONSULTA_USUARIO();
+				break;
+		case 3:
+			system("cls");
+			MODIFICACION_USUARIO();
+			break;
+		case 4:
+			system("cls");
+			BAJA_LOGICA_USUARIO();
+			break;
+		case 5:
+			system("cls");
+			LISTADO_USUARIO();
+			break;
+		case 0:
+
+			break;
+		default :
+			cout<<"dato ingresado incorrecto";
+			break;
+	}
+	
+}while(op!=0);
+}
+void ALTA_USUARIO(void) 
+{ 
+     int c;
+	 c=contarReg(); 
+     FILE *alias; 
+	 RegUsuario Registro;
+	 Registro.codUsuario=101+c;
+  cout<< "\n\rREGISTRATE!!!"; 
+  alias=fopen("USUARIO.SEC","ab"); 
+  if(alias==NULL) 
+   alias=fopen("USUARIO.SEC","wb"); 
+  else
+  fread(&Registro,sizeof(Registro),1,alias); 
+  cin.ignore();
+  cout << "\n\rNombre y apellido: ";
+  getline(cin,Registro.nombre); 
+  cout << "\n\rFecha de nacimiento(DD/MM/AAAA)     : "; 
+  getline(cin,Registro.fechanac); 
+  Registro.estado='A'; 
+  fwrite(&Registro,sizeof(Registro),1,alias);
+  fclose(alias);
+  cout << "\n\n\n\rUsuario Registrado con exito!!!"; 
+  cout << "\n\r<<< Oprima cualquier tecla para continuar >>>"; 
+  getch(); 
+  return; 
+}
+
+void CONSULTA_USUARIO(void) 
+{ 
+  int cod_usuario; 
+  RegUsuario Registro; 
+  FILE *alias; 
+  cout << "\n\rCONSULTA DE USUARIOS DE STRESSOUT"; 
+  alias=fopen("USUARIO.SEC","rb"); 
+  if(alias==NULL) 
+  { 
+    cout << "\n\n\n\rNo existe el archivo !!!"; 
+    cout << "\n\r<<< Oprima cualquier tecla para continuar >>>"; 
+    getch(); 
+    return; 
+  } 
+  cout << "\n\n\n\rCodigo de usuario que desea buscar: "; cin >> cod_usuario; 
+  fread(&Registro,sizeof(Registro),1,alias); 
+
+    while(!feof(alias))  
+  { 
+    if(Registro.codUsuario==cod_usuario && (Registro.estado.at(0)=='A'))
+    { 
+      cout << "\n\rCODIGO           NOMBRE       FECHA DE NACIMIENTO"; 
+      cout << "\n\r------------------------------------------------------------------------"; 
+	  cout<<Registro.codUsuario<<"       "<<Registro.nombre<<"      "<<Registro.fechanac<<endl;
+      fclose(alias); 
+      cout << "\n\r<<< Oprima cualquier tecla para continuar >>>"; 
+      getch(); 
+      return; 
+    } 
+    fread(&Registro,sizeof(Registro),1,alias); 
+  } 
+  cout << "\n\rNo se encuentra ese usuario !!!"; 
+  fclose(alias); 
+  cout << "\n\r<<< Oprima cualquier tecla para continuar >>>"; 
+  getch(); 
+  return; 
+}
+void MODIFICACION_USUARIO(void) 
+{ 
+  int cod_usuario; 
+ RegUsuario Registro; 
+ FILE *alias; 
+  cout << "\n\rMODIFICACION DE USUARIO"; 
+  alias=fopen("USUARIO.SEC","rb+"); 
+  if(alias==NULL)   
+  { 
+    cout << "\n\n\n\rNo existe el archivo !!!"; 
+    cout << "\n\r<<< Oprima cualquier tecla para continuar >>>"; 
+    getch(); 
+    return; 
+  } 
+  cout << "\n\n\n\rNumero de Usuario que quiere modificar: "; cin >> cod_usuario;
+  fread(&Registro,sizeof(Registro),1,alias); 
+  while(!feof(alias)) 
+  { 
+    if(Registro.codUsuario==cod_usuario && (Registro.estado.at(0)=='A'))
+    { 
+      cout << "\n\rCODIGO           NOMBRE       FECHA DE NACIMIENTO"; 
+      cout << "\n\r------------------------------------------------------------------------"; 
+	  cout<<Registro.codUsuario<<"       "<<Registro.nombre<<"      "<<Registro.fechanac<<endl;
+	  cout<<" Ingrese la nueva informacion"<<endl;
+	   cout << "\n\rNombre y apellido: "; getline(cin,Registro.nombre); 
+       cout << "\n\rFecha de nacimiento(DD/MM/AAAA)     : "; getline(cin,Registro.fechanac); 
+	   fseek(alias,ftell(alias)-sizeof(Registro),SEEK_SET); 
+       fwrite(&Registro,sizeof(Registro),1,alias);                              
+       fclose(alias);    
+      cout << "\n\n\n\rUsario modificado !!!"; 
+      cout << "\n\r<<< Oprima cualquier tecla para continuar >>>"; 
+      getch(); 
+      return; 
+    } 
+    fread(&Registro,sizeof(Registro),1,alias); 
+  } 
+  cout << "\n\rNo se encuentra ese Usuario !!!"; 
+  fclose(alias); 
+  cout << "\n\r<<< Oprima cualquier tecla para continuar >>>"; 
+  getch(); 
+  return; 
+} 
+void BAJA_LOGICA_USUARIO(void) 
+{ 
+  int cod_usuario;
+  string op;
+  RegUsuario Registro; 
+  FILE *alias; 
+  cout << "\n\rELIMINAR USUARIO"; 
+  alias=fopen("USUARIO.SEC","rb+");  
+  if(alias==NULL)  
+  { 
+    cout << "\n\n\n\rNo existe el archivo !!!"; 
+    cout << "\n\r<<< Oprima cualquier tecla para continuar >>>"; 
+    getch(); 
+    return; 
+  } 
+  cout << "\n\n\n\rCodigo de usuario que desea eliminar"<<endl;
+ cin>>cod_usuario;
+  fread(&Registro,sizeof(Registro),1,alias); 
+     
+  while(!feof(alias))  
+  { 
+    if(Registro.codUsuario==cod_usuario && (Registro.estado.at(0)=='A'))
+    { 
+       cout << "\n\rCODIGO           NOMBRE       FECHA DE NACIMIENTO"; 
+      cout << "\n\r------------------------------------------------------------------------"; 
+	  cout<<Registro.codUsuario<<Registro.nombre<<Registro.fechanac<<endl;
+      do { 
+        cout << "\n\n\rEsta seguro que desea borrarlo? [S/N] ---> "; 
+        op=toupper(getche()); 
+      }while(op.at(0)!='N'&& op.at(0)!='S');
+      if(op.at(0)='S' ){ 
+		  Registro.estado='E';
+    
+       fseek(alias,ftell(alias)-sizeof(Registro),SEEK_SET);      
+       fwrite(&Registro,sizeof(Registro),1,alias);   
+                                       
+       cout << "\n\n\n\rUsuario Eliminado!!!"<<endl;
+      } 
+      fclose(alias);   
+      cout << "\n\r<<< Oprima cualquier tecla para continuar >>>"; 
+      getch(); 
+      return; 
+    } 
+    fread(&Registro,sizeof(Registro),1,alias); 
+  } 
+  cout << "\n\rNo se encuentra ese registro !!!"; 
+  fclose(alias);  
+  cout << "\n\r<<< Oprima cualquier tecla para continuar >>>"; 
+  getch(); 
+  return; 
+}
+void LISTADO_USUARIO(void) 
+{ 
+  
+  RegUsuario Registro;
+  FILE *alias;
+  cout << "\n\rLISTADO DE USUARIO"; 
+  alias=fopen("USUARIO.SEC","rb"); 
+  if(alias==NULL) 
+  { 
+    cout << "\n\n\n\rNo existe el archivo !!!"; 
+    cout << "\n\r<<< Oprima cualquier tecla para continuar >>>"; 
+    getch(); 
+    return; 
+  } 
+      cout << "\n\rCODIGO           NOMBRE       FECHA DE NACIMIENTO"; 
+      cout << "\n\r------------------------------------------------------------------------"<<endl; 
+  fread(&Registro,sizeof(Registro),1,alias); 
+     
+  while(!feof(alias)) 
+  { 
+	   if((Registro.estado.at(0)=='A')){
+  cout<<Registro.codUsuario<<"      "<<Registro.nombre<<"      "<<Registro.fechanac<<endl;
+  fread(&Registro,sizeof(Registro),1,alias); 
+  } 
+ }
+  fclose(alias); 
+  cout << "\n\r------------------------------------------------------------------------"; 
+  cout << "\n\rUsted no tiene mas situaciones estresantes !!!"; 
+  cout << "\n\r<<< Oprima cualquier tecla para continuar >>>"; 
+  getch(); 
+  return; 
+}
+
+void menuSituaciones(void) 
+{	int op;
+
+	cout<<"                              Controla Tu estres con Stress out!!! "                        <<endl;
+	cout<<"Por Favor Ingrese una opcion"<<endl;
+	do{
+		system("cls");
+		cout<<" 1 Adicionar situacion estresante"<<endl;
+		cout<<" 2 Consulta de tus situaciones estresantes "<<endl;
+		cout<<" 3 Listado de tus situaciones estresantes "<<endl;
+		cout<<" 4 Modificar alguna situacion "<<endl;
+		cout<<" 5 Borrar alguna situacion "<<endl;
+		cout<<" 0 Salir"<<endl;
+		cin>>op;
+
+		switch(op)
+	{	case 1:
+			
+	ALTA_SITUACIONES();
+	system("cls");
+			break;
+			
+		case 2:	 
+			
+	CONSULTA_SITUACIONES();
+			break;
+			
+
+			case 3:	 
+			
+	LISTADO_SITUACIONES();
+			break;
+			
+
+			case 4:	 
+			
+	MODIFICACION_SITUACIONES();
+			break;
+			
+
+			case 5:	 
+			
+	BAJA_LOGICA_SITUACIONES();
+			break;
+			
+			case 0:
+			
+			break;
+			
+		default :
+			cout<<"dato ingresado incorrecto";
+			break;
+		}
+	
+}while(op!=0);
+
+}
+
+void ALTA_SITUACIONES(void) 
+{ 
+  int c;
+  //c=contarReg();
+  FILE *alias;
+  RegSituacion Registro;
+  Registro.nro_situacion=1;
+  cout<< "\n\rAñade tu situacion!"; 
+  alias=fopen("SITUACIONES.SEC","rb+"); 
+  if(alias==NULL) 
+    alias=fopen("SITUACIONES.SEC","wb"); 
+  else
+	  fread(&Registro,sizeof(Registro),1,alias); 
+
+  cout<<" Ingrese el codigo de usuario que ud posee, para guardar la situacion: "<<endl;
+  cin>>Registro.codUsuario;
+  cin.ignore();
+  cout << "\n\rSituacion Estresante: ";
+  getline(cin,Registro.situacion);
+  cout<<"\n\rPuntue su nivel de estres del 1 al 10. Siendo 1 el minimo estres y 10 el maximo estres: ";
+  cin>> Registro.nivel;
+  Registro.estado='A';
+  fwrite(&Registro,sizeof(Registro),1,alias);  
+  fclose(alias);  
+  cout << "\n\n\n\rSituacion registrada !!!"; 
+}
+
+void CONSULTA_SITUACIONES(void) 
+{ int cod_usuario;
+  int no_situaciones; 
+  RegSituacion Registro;
+  FILE *alias;
+  cout << "\n\rCONSULTA DE SITUACIONES ESTRESANTES"; 
+  alias=fopen("SITUACIONES.SEC","rb"); 
+  if(alias==NULL) 
+  { 
+    cout << "\n\n\n\rNo existe el archivo !!!"; 
+    cout << "\n\r<<< Oprima cualquier tecla para continuar >>>"; 
+    getch(); 
+    return; 
+  } 
+  cout<<"Ingrese su codigo de usuario : "<<endl;
+  cin>>cod_usuario;
+  cout << "\n\n\n\rNumero de situacion: "; cin >> no_situaciones; 
+  fread(&Registro,sizeof(Registro),1,alias); 
+
+    
+  while(!feof(alias))  
+  { 
+    if(Registro.nro_situacion==no_situaciones && (Registro.estado.at(0)=='A')&& Registro.codUsuario== cod_usuario) 
+    { 
+      cout<< "\n\rNo Situacion    CodUsuario                Situacion estresante         Nivel de estres"; 
+      cout<< "\n\r------------------------------------------------------------------------";
+	  cout<<Registro.nro_situacion<<"      "<<Registro.codUsuario<<"    "<<Registro.situacion<<"     "<<Registro.nivel<<endl;
+      fclose(alias); 
+      cout << "\n\r<<< Oprima cualquier tecla para continuar >>>"; 
+      getch(); 
+      return; 
+    } 
+    fread(&Registro,sizeof(Registro),1,alias); 
+  } 
+  cout << "\n\rNo se encuentra ese registro !!!"; 
+  fclose(alias); 
+  cout << "\n\r<<< Oprima cualquier tecla para continuar >>>"; 
+  getch(); 
+  return; 
+} 
+void LISTADO_SITUACIONES(void) 
+{ 
+  int cod_usuario;
+  RegSituacion Registro;
+  FILE *alias;
+  cout << "\n\rLISTADO DE SITUACIONES ESTRESANTES"; 
+  alias=fopen("SITUACIONES.SEC","rb"); 
+  if(alias==NULL) 
+  { 
+    cout << "\n\n\n\rNo existe el archivo !!!"; 
+    cout << "\n\r<<< Oprima cualquier tecla para continuar >>>"; 
+    getch(); 
+    return; 
+  } 
+      cout<<" Ingrese su codigo de usuario: "<<endl;
+	  cin>>cod_usuario;
+      cout<< "\n\rNo Situacion    CodUsuario                Situacion estresante         Nivel de estres";
+      cout << "\n\r------------------------------------------------------------------------"<<endl; 
+  fread(&Registro,sizeof(Registro),1,alias); 
+     
+  while(!feof(alias)) 
+  { 
+	   if((Registro.estado.at(0)=='A')&& Registro.codUsuario== cod_usuario){
+  cout<<Registro.nro_situacion<<"      "<<Registro.codUsuario<<"    "<<Registro.situacion<<"     "<<Registro.nivel<<endl;
+  fread(&Registro,sizeof(Registro),1,alias); 
+  } 
+ }
+  fclose(alias); 
+  cout << "\n\r------------------------------------------------------------------------"; 
+  cout << "\n\rUsted no tiene mas situaciones estresantes !!!"; 
+  cout << "\n\r<<< Oprima cualquier tecla para continuar >>>"; 
+  getch(); 
+  return; 
+}
+
+void MODIFICACION_SITUACIONES(void) 
+{ 
+  int no_situaciones;
+  int cod_usuario;
+  RegSituacion Registro;
+  FILE *alias;
+
+  cout << "\n\rMODIFICACION DE REGISTROS DE PRODUCTOS"; 
+  alias=fopen("SITUACIONES.SEC","rb+"); 
+  if(alias==NULL)   
+  { 
+    cout << "\n\n\n\rNo existe el archivo !!!"; 
+    cout << "\n\r<<< Oprima cualquier tecla para continuar >>>"; 
+    getch(); 
+    return; 
+  } 
+  cout<<" Ingrese su codigo de usuario: "<<endl;
+  cin>>cod_usuario;
+  cout << "\n\n\n\rNumero de situacion: "; cin >> no_situaciones; 
+  fread(&Registro,sizeof(Registro),1,alias);    
+  while(!feof(alias))
+  { 
+     if(Registro.nro_situacion==no_situaciones && (Registro.estado.at(0)=='A')&& Registro.codUsuario== cod_usuario) 
+    { 
+      cout << "\n\rNo Situacion                    Situacion estresante         Nivel de estres"; 
+      cout << "\n\r------------------------------------------------------------------------"; 
+     cout<<Registro.nro_situacion<<"      "<<Registro.codUsuario<<"    "<<Registro.situacion<<"     "<<Registro.nivel<<endl; 
+      cout << "\n\r Nueva situacion estresante: "; getline(cin,Registro.situacion);
+      cout<<"\n\rPuntue su nivel de estres del 1 al 10. Siendo 1 el minimo estres y 10 el maximo estres: ";
+      cin>> Registro.nivel;
+      fseek(alias,ftell(alias)-sizeof(Registro),SEEK_SET); 
+      fwrite(&Registro,sizeof(Registro),1,alias);  
+      fclose(alias);   
+      cout << "\n\n\n\rRegistro modificado !!!"; 
+      cout << "\n\r<<< Oprima cualquier tecla para continuar >>>"; 
+      getch(); 
+      return; 
+    } 
+    fread(&Registro,sizeof(Registro),1,alias); 
+  } 
+  cout << "\n\rNo se encuentra ese registro !!!"; 
+  fclose(alias); 
+  cout << "\n\r<<< Oprima cualquier tecla para continuar >>>"; 
+  getch(); 
+  return; 
+} 
+
+void BAJA_LOGICA_SITUACIONES(void) 
+{ 
+  int no_situaciones,cod_usuario;  
+  RegSituacion Registro;
+  FILE *alias;
+  string op; 
+
+  cout << "\n\rBORRAR SITUACIONES ESTRESANTES"; 
+  alias=fopen("SITUACIONES.SEC","rb+"); 
+  if(alias==NULL)   
+  { 
+    cout << "\n\n\n\rNo existe el archivo !!!"; 
+    cout << "\n\r<<< Oprima cualquier tecla para continuar >>>"; 
+    getch(); 
+    return; 
+  }
+  cout<<"Ingrese su codigo de usuario: "<<endl;
+  cin>>cod_usuario;
+  cout << "\n\n\n\rNumero de situacion: "; cin >> no_situaciones; 
+  fread(&Registro,sizeof(Registro),1,alias); 
+     
+  while(!feof(alias)) 
+
+  { 
+    if(Registro.nro_situacion==no_situaciones && (Registro.estado.at(0)=='A')&& Registro.codUsuario== cod_usuario) 
+    { 
+      cout<< "\n\rNo Situacion    CodUsuario                Situacion estresante         Nivel de estres";
+      cout << "\n\r------------------------------------------------------------------------"; 
+      cout<<Registro.nro_situacion<<"      "<<Registro.codUsuario<<"    "<<Registro.situacion<<"     "<<Registro.nivel<<endl;
+      do { 
+        cout << "\n\n\rEsta seguro que desea borrarlo? [S/N] ---> "; 
+        op=toupper(getche()); 
+      }while(op.at(0)!='N'&& op.at(0)!='S');
+      if(op.at(0)='S' ){ 
+	  Registro.estado='E';
+      fseek(alias,ftell(alias)-sizeof(Registro),SEEK_SET);      
+      fwrite(&Registro,sizeof(Registro),1,alias);  
+       cout << "\n\n\n\rRegistro eliminado !!!"; 
+      } 
+      fclose(alias);   
+      cout << "\n\r<<< Oprima cualquier tecla para continuar >>>"; 
+      getch(); 
+      return; 
+    } 
+    fread(&Registro,sizeof(Registro),1,alias); 
+  } 
+  cout << "\n\rNo se encuentra ese registro !!!"; 
+  fclose(alias); 
+  cout << "\n\r<<< Oprima cualquier tecla para continuar >>>"; 
+  getch(); 
+  return; 
+}
